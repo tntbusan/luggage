@@ -2,86 +2,94 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>짐보관 자동 날짜 생성</title>
+  <title>비밀번호 입력</title>
   <style>
-    /* 1) 컨테이너 크기와 정렬 */
-    .container {
-      position: relative;
-      width: 800px;      /* 이미지 실제 크기에 맞춰 조정 */
-      margin: 40px auto; /* 중앙 정렬 */
-    }
-    /* 2) 백그라운드 이미지 */
-    .container img.bg {
-      width: 100%;
-      display: block;
-    }
-    /* 3) 텍스트 오버레이 기본 설정 */
-    .overlay {
-      position: absolute;
-      color: #333;
+    body {
       font-family: 'Arial', sans-serif;
+      background: #f2f2f2;
       text-align: center;
+      margin: 0;
+      padding: 100px 20px;
     }
-    /* 4) DATE 레이블 위치 */
-    .overlay.date-label {
-      top: 180px;      /* 이미지에서 DATE가 들어갈 위치 */
-      left: 50%;
-      transform: translateX(-50%);
+    .popup {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    input[type="password"] {
+      width: 80%;
+      padding: 10px;
+      margin-top: 15px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
       font-size: 16px;
-      letter-spacing: 2px;
-      font-weight: bold;
     }
-    /* 5) 실제 날짜 텍스트 위치 */
-    .overlay.date-value {
-      top: 200px;      /* 이미지에서 날짜 숫자가 들어갈 위치 */
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 48px;
-      font-weight: bold;
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
     }
-    /* 6) 설명 텍스트 위치 */
-    .overlay.details {
-      top: 260px;      /* 설명 위치 */
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      font-size: 18px;
-      line-height: 1.4;
+    button {
+      padding: 10px 20px;
+      background-color: #4F9FFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2e7be4;
+    }
+    .retry-button {
+      background-color: #aaa;
+    }
+    .retry-button:hover {
+      background-color: #888;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <!-- 네가 올린 디자인 이미지 -->
-    <img src="assets/bg.png" alt="짐보관 디자인" class="bg">
-
-    <!-- 오버레이 텍스트 -->
-    <div class="overlay date-label">DATE</div>
-    <div class="overlay date-value" id="auto-date">--.--.-- (--)</div>
-    <div class="overlay details">
-      このお客様は<strong>TNTBUSAN</strong>の利用者で、 荷物預かりが可能です。<br>
-      짐은 1인 1개 / 도착 1일차 하루만 / 하선 후 1시간 이내 이용 가능<br>
-      (기타 주의사항은 블로그 링크 참고)
-    </div>
+<div class="popup" id="passwordPopup">
+  <h3>비밀번호를 입력하세요</h3>
+  <input type="password" id="passwordInput" placeholder="비밀번호">
+  <div class="button-group" id="buttonGroup">
+    <button onclick="checkPassword()">확인</button>
   </div>
+</div>
 
-  <script>
-    function updateDate() {
-      let now = new Date();
-      if (now.getHours() >= 15) now.setDate(now.getDate() + 1);
+<script>
+  const correctPassword = "0428"; // 🔥 매일 여기 비밀번호 수정
 
-      let yy = String(now.getFullYear()).slice(2),
-          mm = String(now.getMonth()+1).padStart(2,'0'),
-          dd = String(now.getDate()).padStart(2,'0'),
-          wd = ['SUN','MON','TUE','WED','THU','FRI','SAT'][now.getDay()];
-
-      document.getElementById('auto-date').textContent = 
-        `${yy}.${mm}.${dd} (${wd})`;
+  function checkPassword() {
+    const input = document.getElementById('passwordInput').value;
+    if (input === correctPassword) {
+      window.location.href = "luggage.html"; // 짐보관 안내 페이지로 이동
+    } else {
+      showRetryOption();
     }
+  }
 
-    updateDate();
-    setInterval(updateDate, 60_000);
-  </script>
+  function showRetryOption() {
+    const buttonGroup = document.getElementById('buttonGroup');
+    buttonGroup.innerHTML = `
+      <button class="retry-button" onclick="retry()">재입력</button>
+    `;
+    document.getElementById('passwordInput').value = '';
+    alert('비밀번호가 틀렸습니다. 다시 입력해주세요.');
+  }
+
+  function retry() {
+    const buttonGroup = document.getElementById('buttonGroup');
+    buttonGroup.innerHTML = `
+      <button onclick="checkPassword()">확인</button>
+    `;
+  }
+</script>
+
 </body>
 </html>
