@@ -104,7 +104,7 @@
         こちらのお客様は <strong>TNTBUSAN</strong> の<br>無料手荷物預かりサービスをご利用いただけます。<br><br>
         <strong>짐은 1인 1개 / 도착 1일차 하루만 /<br>
         하선후 1시간 이내 방문</strong> 시에만 이용 가능<br>
-        (기타 주의사항은 블로그 링크 참고)
+        (기타 주의사항은 아래 이미지 참고)
       </div>
     </div>
   </div>
@@ -114,9 +114,39 @@
     <button class="btn" onclick="downloadPDF()">PDF로 저장</button>
     <button class="btn" onclick="location.href='https://example.com/contact'">예약 문의하기</button>
   </div>
+<div class="image-section">
+  <img src="caution_image.png" alt="유의사항 이미지" class="animated-image">
+</div>
 
+<style>
+  .image-section {
+    text-align: center;
+    margin: 60px auto;
+  }
+
+  .animated-image {
+    max-width: 90%;
+    border-radius: 16px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, opacity 0.5s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s forwards;
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animated-image:hover {
+    transform: scale(1.03);
+  }
+</style>
   <footer>
-    &copy; 2025 TNTBUSAN 짐보관 서비스
+    &copy; TNTBUSAN 무료 짐보관 서비스
   </footer>
 
   <script>
@@ -146,36 +176,7 @@
     updateDate();
     setInterval(updateDate, 60_000); // 1분마다 갱신
   </script>
-  <div class="image-section">
-  <img src="caution_image.jpg" alt="짐보관 안내 이미지" class="animated-image">
-</div>
 
-<style>
-  .image-section {
-    text-align: center;
-    margin: 60px auto;
-  }
-
-  .animated-image {
-    max-width: 90%;
-    border-radius: 16px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    transition: transform 0.3s ease, opacity 0.5s ease;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 1s forwards;
-  }
-
-  @keyframes fadeInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animated-image:hover {
-    transform: scale(1.03);
-  }
 </style>
 </body>
 </html>
