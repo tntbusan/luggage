@@ -12,18 +12,21 @@
       margin: 0;
       padding: 0;
     }
+
     .container {
       position: relative;
       width: 100%;
       max-width: 800px;
       margin: 40px auto;
     }
+
     .container img.bg {
       width: 100%;
       display: block;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
+
     .text-block {
       position: absolute;
       top: 65.5%;
@@ -32,50 +35,78 @@
       color: #222;
       width: 70%;
       max-width: 600px;
-      padding: 0;
       box-sizing: border-box;
       text-align: center;
     }
+
     .text-block .date-label {
       font-size: 5vw;
       font-weight: 700;
       margin-bottom: 6px;
     }
+
     .text-block .date-value {
       font-size: 7vw;
       font-weight: 800;
       margin-bottom: 20px;
       color: #007bff;
     }
+
     .text-block .details {
       font-size: 3.8vw;
       font-weight: 500;
       line-height: 1.6;
       word-break: keep-all;
     }
+
     .text-block .details strong {
       font-weight: 800;
       color: #2e3d86;
     }
-    .actions {
+
+    .voucher-note {
       text-align: center;
-      margin-top: 40px;
-      padding: 0 5vw;
-    }
-    .btn {
-      background-color: #007bff;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #fff8d6;
+      border: 2px dashed #f0ad4e;
+      border-radius: 10px;
       font-size: 16px;
-      cursor: pointer;
-      margin: 10px;
-      transition: background-color 0.3s;
+      color: #333;
+      line-height: 1.6;
+      max-width: 600px;
     }
-    .btn:hover {
-      background-color: #0056b3;
+
+    .voucher-note p {
+      margin: 0 0 10px;
     }
+
+    .image-section {
+      text-align: center;
+      margin: 60px auto;
+    }
+
+    .animated-image {
+      max-width: 90%;
+      border-radius: 16px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease, opacity 0.5s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1s forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animated-image:hover {
+      transform: scale(1.03);
+    }
+
     footer {
       text-align: center;
       font-size: 14px;
@@ -83,11 +114,8 @@
       margin-top: 60px;
       padding: 0 5vw;
     }
+
     @media (min-width: 768px) {
-      .text-block {
-        text-align: center;
-        padding: 0;
-      }
       .text-block .date-label { font-size: 36px; }
       .text-block .date-value { font-size: 54px; }
       .text-block .details { font-size: 20px; line-height: 1.8; }
@@ -99,54 +127,29 @@
     <img src="luggage-logo.png" alt="짐보관 디자인" class="bg">
     <div class="text-block">
       <div class="date-label">DATE</div>
-      <div class="date-value" id="auto-date">--.--.-- (--)</div> <!-- ⭐ 날짜 들어가는 부분 -->
+      <div class="date-value" id="auto-date">--.--.-- (--)</div>
       <div class="details">
         こちらのお客様は <strong>TNTBUSAN</strong> の<br>無料手荷物預かりサービスをご利用いただけます。<br><br>
         <strong>짐은 1인 1개 / 도착 1일차 하루만 /<br>
         하선후 1시간 이내 방문</strong> 시에만 이용 가능<br>
-        (기타 주의사항은 아래 이미지 참고)
+        (기타 주의사항은 블로그 링크 참고)
       </div>
     </div>
   </div>
 
-  <div class="actions">
-    <button class="btn" onclick="copyDate()">날짜 복사하기</button>
-    <button class="btn" onclick="downloadPDF()">PDF로 저장</button>
-    <button class="btn" onclick="location.href='https://example.com/contact'">예약 문의하기</button>
+  <!-- ✅ 안내 문구 -->
+  <div class="voucher-note">
+    <p>▲▲▲ <strong>위의 바우처를 직원에게 보여주세요</strong> ▲▲▲</p>
+    <p>데이터 로밍 오류를 대비하여 <strong>꼭 사전에 캡쳐해서 보관</strong>해주세요</p>
   </div>
-<div class="image-section">
-  <img src="caution_image.png" alt="유의사항 이미지" class="animated-image">
-</div>
 
-<style>
-  .image-section {
-    text-align: center;
-    margin: 60px auto;
-  }
+  <!-- ✅ 하단 이미지 -->
+  <div class="image-section">
+    <img src="caution_image.png" alt="유의사항 이미지" class="animated-image">
+  </div>
 
-  .animated-image {
-    max-width: 90%;
-    border-radius: 16px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    transition: transform 0.3s ease, opacity 0.5s ease;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 1s forwards;
-  }
-
-  @keyframes fadeInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .animated-image:hover {
-    transform: scale(1.03);
-  }
-</style>
   <footer>
-    &copy; TNTBUSAN 무료 짐보관 서비스
+    &copy; 2025 TNTBUSAN 짐보관 서비스
   </footer>
 
   <script>
@@ -162,21 +165,8 @@
       document.getElementById('auto-date').textContent = `${yy}.${mm}.${dd} (${wd})`;
     }
 
-    function copyDate() {
-      const dateText = document.getElementById('auto-date').textContent;
-      navigator.clipboard.writeText(dateText).then(() => {
-        alert('날짜가 복사되었습니다!');
-      });
-    }
-
-    function downloadPDF() {
-      window.print();
-    }
-
     updateDate();
-    setInterval(updateDate, 60_000); // 1분마다 갱신
+    setInterval(updateDate, 60_000);
   </script>
-
-</style>
 </body>
 </html>
