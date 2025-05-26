@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>접근 확인</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     body {
       font-family: sans-serif;
@@ -18,7 +18,7 @@
       border-radius: 16px;
       max-width: 400px;
       margin: auto;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
 
     h2 {
@@ -26,14 +26,37 @@
       color: #333;
     }
 
-    input[type="password"] {
-      padding: 10px;
-      width: 80%;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      margin-bottom: 20px;
-    }
+  .password-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 80%;
+}
+
+input[type="password"],
+input[type="text"] {
+  padding: 12px 40px 12px 12px;
+  width: 100%;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  height: 48px;
+}
+
+.toggle-visibility {
+  position: absolute;
+  right: 12px;
+  top: 13px; /* ← 여기가 핵심! 정확한 픽셀 위치 */
+  font-size: 20px;
+  cursor: pointer;
+  user-select: none;
+  height: 24px;
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
     button {
       background-color: #4F9FFF;
@@ -58,14 +81,32 @@
 <body>
   <div class="container">
     <h2>비밀번호를 입력하세요</h2>
-    <input type="password" id="passwordInput" placeholder="비밀번호 입력">
-    <br>
+    <div class="password-wrapper">
+      <input type="password" id="passwordInput" placeholder="비밀번호 입력" />
+      <span class="toggle-visibility" onclick="togglePassword()">👁️</span>
+    </div>
+    <br />
     <button onclick="checkPassword()">확인</button>
     <div id="errorMessage" class="error"></div>
   </div>
 
   <script>
-    const correctPassword = "1932"; // 비밀번호 여기서 변경 가능
+    // ✅ 고정된 날짜별 비밀번호 (랜덤 4자리 고정값)
+    const passwordMap = {
+      "2025-05-26": "3147",
+      "2025-05-27": "6893",
+      "2025-05-28": "5208",
+    };
+
+    const defaultPassword = "9210";
+
+    // ✅ 오후 3시(KST) 기준으로 다음날 비밀번호 적용
+    const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" }));
+    if (now.getHours() >= 15) {
+      now.setDate(now.getDate() + 1);
+    }
+    const todayKey = now.toISOString().slice(0, 10);
+    const correctPassword = passwordMap[todayKey] || defaultPassword;
 
     function checkPassword() {
       const input = document.getElementById("passwordInput").value;
@@ -77,6 +118,24 @@
         error.textContent = "비밀번호가 틀렸습니다.";
       }
     }
+
+    function togglePassword() {
+      const input = document.getElementById("passwordInput");
+      const icon = document.querySelector(".toggle-visibility");
+      if (input.type === "password") {
+        input.type = "text";
+        icon.textContent = "🙈";
+      } else {
+        input.type = "password";
+        icon.textContent = "👁️";
+      }
+    }
+
+    document.getElementById("passwordInput").addEventListener("keyup", function (event) {
+      if (event.key === "Enter") {
+        checkPassword();
+      }
+    });
   </script>
 </body>
 </html>
