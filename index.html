@@ -26,37 +26,37 @@
       color: #333;
     }
 
-  .password-wrapper {
-  position: relative;
-  display: inline-block;
-  width: 80%;
-}
+    .password-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 80%;
+    }
 
-input[type="password"],
-input[type="text"] {
-  padding: 12px 40px 12px 12px;
-  width: 100%;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  box-sizing: border-box;
-  height: 48px;
-}
+    input[type="password"],
+    input[type="text"] {
+      padding: 12px 40px 12px 12px;
+      width: 100%;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+      height: 48px;
+    }
 
-.toggle-visibility {
-  position: absolute;
-  right: 12px;
-  top: 13px; /* ← 여기가 핵심! 정확한 픽셀 위치 */
-  font-size: 20px;
-  cursor: pointer;
-  user-select: none;
-  height: 24px;
-  width: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    .toggle-visibility {
+      position: absolute;
+      right: 12px;
+      top: 13px;
+      font-size: 20px;
+      cursor: pointer;
+      user-select: none;
+      height: 24px;
+      width: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
     button {
       background-color: #4F9FFF;
@@ -91,25 +91,10 @@ input[type="text"] {
   </div>
 
   <script>
-    // ✅ 고정된 날짜별 비밀번호 (랜덤 4자리 고정값)
-    const passwordMap = {
-      "2025-05-27": "6893",
-      "2025-05-28": "5208",
-      "2025-05-29": "7649"
-    };
-
-    const defaultPassword = "6893";
-
-    // ✅ 오후 3시(KST) 기준으로 다음날 비밀번호 적용
-    const now = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" }));
-    if (now.getHours() >= 15) {
-      now.setDate(now.getDate() + 1);
-    }
-    const todayKey = now.toISOString().slice(0, 10);
-    const correctPassword = passwordMap[todayKey] || defaultPassword;
+    const correctPassword = "5208";
 
     function checkPassword() {
-      const input = document.getElementById("passwordInput").value;
+      const input = document.getElementById("passwordInput").value.trim();
       const error = document.getElementById("errorMessage");
 
       if (input === correctPassword) {
