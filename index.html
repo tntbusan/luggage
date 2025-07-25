@@ -11,7 +11,6 @@
       text-align: center;
       padding: 100px 20px;
     }
-
     .container {
       background: white;
       padding: 40px;
@@ -20,18 +19,15 @@
       margin: auto;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
-
     h2 {
       margin-bottom: 20px;
       color: #333;
     }
-
     .password-wrapper {
       position: relative;
       display: inline-block;
       width: 80%;
     }
-
     input[type="password"],
     input[type="text"] {
       padding: 12px 40px 12px 12px;
@@ -43,21 +39,14 @@
       box-sizing: border-box;
       height: 48px;
     }
-
     .toggle-visibility {
       position: absolute;
-      right: 12px;
       top: 13px;
+      right: 12px;
       font-size: 20px;
       cursor: pointer;
       user-select: none;
-      height: 24px;
-      width: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
-
     button {
       background-color: #4F9FFF;
       color: white;
@@ -67,14 +56,17 @@
       cursor: pointer;
       font-size: 16px;
     }
-
     button:hover {
       background-color: #2e7be4;
     }
-
     .error {
       color: red;
       margin-top: 10px;
+    }
+    .debug {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
     }
   </style>
 </head>
@@ -86,15 +78,60 @@
       <span class="toggle-visibility" onclick="togglePassword()">👁️</span>
     </div>
     <br />
-    <button onclick="checkPassword()">확인</button>
+    <button id="confirmButton">확인</button>
     <div id="errorMessage" class="error"></div>
-    <div>전달해드린 비밀번호는 <br>
+    <!-- 디버그용: 현재 적용되는 날짜 키 보여주기 -->
+    <!--<div id="debugInfo" class="debug"></div> -->
+      <div>전달해드린 비밀번호는 <br>
          부산출발 1일전, 15시부터 적용됩니다.</div>
+
   </div>
 
   <script>
-    const correctPassword = "4765";
+    // 1) 날짜별 고정 비밀번호 설정 (여기에 원하는 날짜와 비밀번호를 추가하세요)
+    const passwordMap = {
+      "2025-07-25": "2442",
+       "2025-07-26": "9352",
+        "2025-07-27": "0282",
+       "2025-07-28": "2314",
+       "2025-07-29": "9665",
+       "2025-07-30": "2425",
+    };
+    // 해당 날짜에 키가 없을 때 사용할 기본 비밀번호
+    const defaultPassword = "9210";
 
+    /**
+     * KST(Asia/Seoul) 시각을 가져와서,
+     * 오후 3시(15:00) 이후면 다음 날 날짜를 반환
+     * 리턴 형식: "YYYY-MM-DD"
+     */
+    function getKSTDate() {
+      // 브라우저 로컬 시간을 KST로 변환
+      const nowKST = new Date(
+        new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" })
+      );
+      // 오후 3시(15시) 이후라면 날짜를 +1
+      if (nowKST.getHours() >= 15) {
+        nowKST.setDate(nowKST.getDate() + 1);
+      }
+      // YYYY-MM-DD 형식으로 변환
+      const year = nowKST.getFullYear();
+      const month = String(nowKST.getMonth() + 1).padStart(2, "0");
+      const day = String(nowKST.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    // 오늘 키(관리용): KST 기준으로 계산된 날짜
+    const todayKey = getKSTDate();
+    // 실제 비교할 비밀번호
+    const correctPassword = passwordMap[todayKey] || defaultPassword;
+
+    // 디버그 정보 화면에 표시
+    document.getElementById("debugInfo").textContent =
+      "[DEBUG] 현재 적용 날짜 키: " + todayKey +
+      "  |  사용 비밀번호: " + correctPassword;
+
+    // 비밀번호 확인 함수
     function checkPassword() {
       const input = document.getElementById("passwordInput").value.trim();
       const error = document.getElementById("errorMessage");
@@ -106,6 +143,7 @@
       }
     }
 
+    // 입력한 비밀번호 보였다가 다시 가려주는 토글 함수
     function togglePassword() {
       const input = document.getElementById("passwordInput");
       const icon = document.querySelector(".toggle-visibility");
@@ -118,11 +156,28 @@
       }
     }
 
-    document.getElementById("passwordInput").addEventListener("keyup", function (event) {
-      if (event.key === "Enter") {
-        checkPassword();
-      }
-    });
+    // 엔터 입력 시에도 확인 버튼과 동일하게 동작
+    document
+      .getElementById("passwordInput")
+      .addEventListener("keyup", function (event) {
+        if (event.key === "Enter") {
+          checkPassword();
+        }
+      });
+
+    // 공백(스페이스) 입력 차단
+    document
+      .getElementById("passwordInput")
+      .addEventListener("keydown", function (event) {
+        if (event.code === "Space") {
+          event.preventDefault();
+        }
+      });
+
+    // 확인 버튼 클릭 시 동작
+    document
+      .getElementById("confirmButton")
+      .addEventListener("click", checkPassword);
   </script>
 </body>
 </html>
